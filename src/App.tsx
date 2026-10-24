@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Hero from './components/Hero'
 import ElasticSection from './components/ElasticSection'
 import Contact from './components/Contact'
+import Splash from './components/Splash'
 import CaseStudy from './pages/CaseStudy'
 import { findProject } from './projects/data'
 
@@ -26,6 +27,7 @@ export default function App() {
 
   return (
     <>
+      <Splash />
       <Hero />
       <ElasticSection />
       <Contact />

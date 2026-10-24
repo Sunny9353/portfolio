@@ -14,6 +14,7 @@ import './about.css'
 import './skills.css'
 import './projects.css'
 import './contact.css'
+import './splash.css'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(
