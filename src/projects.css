@@ -1,0 +1,166 @@
+.next { --pb-edge: clamp(110px, 12vw, 180px); } /* height of the black band's curved edge */
+/* The page behind is black, so the area the stretched band leaves open must be white: it is the continuation of About. */
+.pband-back { position: relative; height: 0; }
+.pband-back i { position: absolute; left: 0; right: 0; top: -1px; height: calc(var(--pb-edge) * 0.85 + 6px); background: #fff; }
+
+/* ---- Projects: elastic black band: the Projects page rises as a black band whose middle bounces ---- */
+.pband { position: relative; z-index: 3; will-change: transform; }
+.pband-edge {
+  position: relative;
+  height: var(--pb-edge);
+  margin-bottom: -1px;
+  pointer-events: none;
+}
+.pband-edge svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.pband-edge path { fill: #000; }
+.pband-body { background: #000; }
+/* the Skillset page is the white band */
+.pband.light .pband-edge path { fill: #fff; }
+.pband.light .pband-body { background: #fff; color: #000; padding: 6vh 6vw 10vh; }
+
+/* ====================== Selected Projects (home) ======================
+   Built like the reference: heading, hairline rows; the hovered row opens a bigger share of a fixed-height list with the
+   title and the "Jump To Project" button on top, the details along the bottom and the preview on the right. Sizes are
+   capped by the viewport height too, so the whole section fits one screen. */
+.pj {
+  --thumb-w: clamp(240px, min(26vw, 48vh), 400px);
+  font-family: var(--font-body);
+  /* exactly one screen tall (taller only if the window is too short for the content) */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 6vh, 72px) var(--gutter) clamp(24px, 5vh, 56px);
+  background: #000;
+  color: #fff;
+}
+.pj-head { display: flex; align-items: baseline; gap: 16px; width: 100%; max-width: var(--maxw); margin: 0 auto; padding-bottom: clamp(14px, 2.6vh, 30px); }
+.pj-title {
+  font-family: var(--font-tech);
+  font-weight: 400;
+  font-size: clamp(1.75rem, min(4.2vw, 7.5vh), 4rem);
+  line-height: var(--lh-tight);
+  letter-spacing: 0.005em;
+}
+.pj-count { color: var(--ink-faint-dark); }
+
+.pj-list { list-style: none; width: 100%; max-width: var(--maxw); margin: 0 auto; border-bottom: 1px solid var(--line-dark); flex: 1; display: flex; flex-direction: column; }
+.pj-row {
+  --row-pad: clamp(10px, 1.8vh, 22px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--thumb-w);
+  column-gap: clamp(20px, 3vw, 56px);
+  align-items: stretch;
+  /* the list has a fixed height; the hovered row takes a bigger share of it and the others give way smoothly */
+  flex: 1 1 0;
+  min-height: 64px;
+  overflow: hidden;
+  padding: calc(var(--row-pad) * 1.3) 0 var(--row-pad);
+  border-top: 1px solid var(--line-dark);
+  cursor: pointer;
+  transition: flex-grow 0.55s var(--ease-out);
+}
+.pj-row.is-active { flex-grow: 3.1; }
+
+.pj-main { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+.pj-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; }
+
+.pj-name {
+  --hw-base: var(--ink-faint-dark);
+  font-family: var(--font-tech);
+  font-size: clamp(1.25rem, min(2.4vw, 4.2vh), 2.25rem);
+  line-height: var(--lh-snug);
+  color: var(--ink-faint-dark);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.pj-name::after { content: ''; position: absolute; inset: 0; z-index: 1; } /* the whole row is the link */
+.pj-row.is-active .pj-name { color: #fff; }
+.pj-name:focus-visible { outline-offset: -2px; }
+
+.pj-jump {
+  --hw-base: var(--ink-faint-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--line-dark);
+  color: var(--ink-faint-dark);
+  font-size: var(--fs-small);
+  white-space: nowrap;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.pj-row.is-active .pj-jump { color: #fff; border-color: #fff; }
+.pj-row.is-active:hover .pj-jump { background: #fff; color: #000; }
+.pj-arrow { transition: transform 0.3s var(--ease-out); }
+.pj-row:hover .pj-arrow { transform: translateX(4px); }
+
+/* the details sit along the bottom of the row: each key above its value, all four across */
+.pj-meta { display: flex; flex-wrap: wrap; gap: 10px clamp(24px, 3.4vw, 56px); margin: 0; }
+.pj-pair { min-width: 0; }
+.pj-pair dt { color: var(--ink-faint-dark); }
+.pj-pair dd { margin: 6px 0 0; font-size: var(--fs-small); line-height: var(--lh-snug); color: #fff; white-space: nowrap; }
+
+.pj-thumb { width: var(--thumb-w); aspect-ratio: 16 / 10; align-self: start; opacity: 0; transform: translateX(10px); pointer-events: none; transition: opacity 0.3s ease, transform 0.45s var(--ease-out); }
+.pj-row.is-active .pj-thumb { opacity: 1; transform: none; transition-delay: 0.14s; }
+.pj-thumb img, .pj-thumb svg { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; background: #000; border: 1px solid var(--line-dark); }
+
+/* ---- per-character flash, as on the reference: every character animates with a delay of 16ms x its index ----
+   titles and the button: resting colour -> a white flash with a soft glow -> the final colour
+   details ("appear"): invisible -> white flash with a glow -> the final colour; the glow is gone when each letter lands */
+.hw-w { display: inline-block; white-space: nowrap; }
+.hw-c { display: inline-block; white-space: pre; }
+.pj-row:not(.is-active) .hw-a .hw-c { color: transparent; }
+.pj-row.is-active .hw-c { animation: hw-sweep 0.4s ease both; animation-delay: calc(var(--hwi) * 16ms); }
+.pj-row.is-active .hw-a .hw-c { animation-name: hw-appear; animation-delay: calc(0.14s + var(--hwi) * 16ms); }
+@keyframes hw-sweep {
+  0% { color: var(--hw-base, currentColor); text-shadow: 0 0 0 rgba(255, 255, 255, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  45% { color: #fff; text-shadow: 0 0 14px rgba(255, 255, 255, 0.9); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+}
+@keyframes hw-appear {
+  0% { color: rgba(255, 255, 255, 0); text-shadow: 0 0 0 rgba(255, 255, 255, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  45% { color: #fff; text-shadow: 0 0 14px rgba(255, 255, 255, 0.9); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* ---- phones, tablets and anything without hover: no fixed-height list, every row is open and shows its details ---- */
+@media (max-width: 860px), (hover: none) {
+  .pj { min-height: 0; }
+  .pj-list { display: block; flex: none; }
+  .pj-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 16px;
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+    padding: 22px 0 26px;
+    transition: none;
+  }
+  .pj-row.is-active { flex-grow: initial; }
+  .pj-main { height: auto; gap: 18px; }
+  .pj-top { align-items: center; gap: 12px 16px; }
+  .pj-name { color: #fff; font-size: clamp(1.25rem, 5.2vw, 1.875rem); }
+  .pj-jump { min-height: 40px; padding: 0 14px; gap: 10px; color: #fff; border-color: rgba(255, 255, 255, 0.55); font-size: 0.8125rem; }
+  .pj-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+  .pj-pair dd { white-space: normal; }
+  .pj-thumb { display: block; width: 100%; opacity: 1; transform: none; transition: none; }
+  .pj-row .hw-c { animation: none !important; color: inherit !important; }
+}
+/* tablets and wide phones: details on the left, preview on the right */
+@media (min-width: 640px) and (max-width: 860px), (min-width: 640px) and (hover: none) {
+  .pj-row { grid-template-columns: minmax(0, 1fr) minmax(220px, 38%); column-gap: 28px; align-items: start; }
+  .pj-main { height: 100%; justify-content: space-between; }
+  .pj-meta { gap: 14px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pj-row, .pj-name, .pj-jump, .pj-arrow, .pj-thumb { transition: none; }
+  .pj-row .hw-c { animation: none !important; }
+}
+
+/* drawn figures use the site fonts */
+.art-svg { display: block; width: 100%; height: auto; }
+.art-tech { font-family: var(--font-tech); font-size: 22px; letter-spacing: 0.04em; }
+.art-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }

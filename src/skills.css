@@ -1,0 +1,87 @@
+/* ====================== Skillset (white, right after About) ======================
+   An open matrix: domain, tools and the projects that used them, all visible at once. Hairline rows like the rest of
+   the site; the hovered row brightens and its name flashes. */
+.sk {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-top: var(--space-section);
+  min-height: calc(100svh - 16vh);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+}
+.sk-head { display: flex; align-items: baseline; gap: 16px; padding-bottom: clamp(14px, 2.6vh, 30px); }
+.sk-title {
+  font-family: var(--font-tech);
+  font-weight: 400;
+  font-size: clamp(1.75rem, min(4.2vw, 7.5vh), 4rem);
+  line-height: var(--lh-tight);
+  letter-spacing: 0.005em;
+}
+.sk-count { color: var(--ink-faint-light); }
+
+.sk-list { list-style: none; flex: 1; display: flex; flex-direction: column; border-bottom: 1px solid var(--line-light); }
+.sk-row {
+  display: grid;
+  grid-template-columns: clamp(40px, 5vw, 72px) minmax(0, 0.9fr) minmax(0, 2fr) minmax(0, 1fr);
+  column-gap: clamp(16px, 2.4vw, 40px);
+  align-items: start;
+  flex: 1 1 0;
+  padding: clamp(14px, 2.2vh, 26px) 0;
+  border-top: 1px solid var(--line-light);
+}
+.sk-num { padding-top: 0.55em; color: var(--ink-faint-light); }
+.sk-dom {
+  font-family: var(--font-tech);
+  font-weight: 400;
+  font-size: clamp(1.1rem, min(2.1vw, 3.8vh), 1.9rem);
+  line-height: var(--lh-snug);
+  color: #000;
+}
+.sk-w { display: inline-block; white-space: nowrap; }
+.sk-c { display: inline-block; white-space: pre; }
+
+.sk-tools { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.sk-tools li {
+  padding: 6px 13px;
+  border: 1px solid var(--line-light);
+  color: var(--ink-muted-light);
+  font-size: var(--fs-small);
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+.sk-row:hover .sk-tools li { border-color: #000; color: #000; }
+.sk-tools li:hover { background: #000; color: #fff !important; }
+
+.sk-used { display: flex; flex-wrap: wrap; gap: 2px 14px; justify-content: flex-end; align-content: flex-start; text-align: right; font-size: var(--fs-small); color: var(--ink-muted-light); }
+.sk-used .label { width: 100%; margin-bottom: 2px; color: var(--ink-faint-light); }
+.sk-used a { color: #000; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+.sk-used a:hover, .sk-used a:focus-visible { border-color: #000; }
+.sk-used a i { display: inline-block; font-style: normal; transition: transform 0.25s var(--ease-out); }
+.sk-used a:hover i { transform: translate(2px, -2px); }
+
+/* the domain name flashes through its letters when its row is hovered: grey -> black with a soft shadow -> black */
+.sk-row:hover .sk-c { animation: sk-sweep 0.4s ease both; animation-delay: calc(var(--hwi) * 16ms); }
+@keyframes sk-sweep {
+  0% { color: var(--ink-faint-light); text-shadow: 0 0 0 rgba(0, 0, 0, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  45% { color: #000; text-shadow: 0 0 10px rgba(0, 0, 0, 0.35); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { text-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+}
+
+/* the rows rise in one after another when the section arrives */
+.sk .sk-row, .sk .sk-head { opacity: 0; transform: translateY(18px); }
+.sk.in .sk-head, .sk.in .sk-row { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.8s var(--ease-out); }
+.sk.in .sk-row { transition-delay: calc(0.08s + var(--ri) * 0.07s); }
+
+@media (max-width: 860px) {
+  .sk-row { grid-template-columns: 40px 1fr; row-gap: 12px; }
+  .sk-tools, .sk-used { grid-column: 2; }
+  .sk-used { justify-content: flex-start; text-align: left; }
+  .sk-used .label { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk .sk-row, .sk .sk-head { opacity: 1; transform: none; transition: none; }
+  .sk-row:hover .sk-c { animation: none; }
+  .sk-tools li, .sk-used a, .sk-used a i { transition: none; }
+}

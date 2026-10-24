@@ -1,0 +1,37 @@
+/* ====================== About (white page after the hero) ====================== */
+.about { max-width: 1320px; margin: 0 auto; }
+.about-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: var(--fs-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-faint-light);
+}
+.about-title, .close-title {
+  margin-top: 26px;
+  font-family: var(--font-tech);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: 0.005em;
+}
+.about-title { max-width: 15ch; }
+
+/* each word rises out of its own mask; the mask opens once the heading is in so the AI glitch can tear sideways */
+.w { display: inline-block; overflow-y: clip; overflow-x: visible; vertical-align: top; padding-bottom: 0.08em; }
+.wi { display: inline-block; will-change: transform; }
+.is-in .w { overflow: visible; }
+
+/* the AI glitch on a light page: black text, tear slices in black, same blue / red / cyan */
+.ai.on-light { --bgc: #fff; }
+.ai.on-light .l-s1, .ai.on-light .l-s2, .ai.on-light .l-s3 { color: #000; }
+
+.about-copy { margin-top: clamp(48px, 9vh, 110px); }
+.about-copy p {
+  max-width: 34em;
+  font-family: var(--font-body);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  color: var(--ink-muted-light);
+}
+.about-copy p + p { margin-top: 1.1em; }

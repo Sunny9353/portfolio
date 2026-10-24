@@ -1,0 +1,100 @@
+/* ====================== Contact / footer ======================
+   Closing section on black: availability, a Let's Connect button, links, the name set huge, a slim footer line.
+   Sizes follow the site's type tokens and are capped by viewport height so it fits one screen. */
+.ct {
+  min-height: 50svh; /* half a screen; grows only if the content needs it */
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 3.6vh, 44px) var(--gutter) 0;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+.ct-wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; flex: 1; display: flex; flex-direction: column; }
+.ct-avail { display: flex; align-items: center; gap: 10px; color: var(--ink-faint-dark); }
+.ct-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: ct-pulse 1.8s ease-in-out infinite; }
+@keyframes ct-pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); } 50% { opacity: 0.6; box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); } }
+
+.ct-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px 32px; margin-top: clamp(8px, 1.6vh, 16px); }
+.ct-title {
+  margin: 0;
+  font-family: var(--font-tech);
+  font-weight: 400;
+  font-size: clamp(1.5rem, min(3vw, 5.4vh), 2.6rem);
+  line-height: var(--lh-tight);
+  letter-spacing: 0.005em;
+}
+
+.ct-connect { align-self: flex-start; margin-top: clamp(10px, 2vh, 20px); padding: clamp(12px, 1.8vh, 18px) clamp(22px, 2.4vw, 36px); font-size: clamp(0.8rem, 1.2vw, 1.05rem); }
+
+.ct-links { display: flex; flex-wrap: wrap; gap: 8px clamp(18px, 2.4vw, 36px); }
+.ct-links a {
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line-dark);
+  color: var(--ink-faint-dark);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ct-links a:hover, .ct-links a:focus-visible { color: #fff; border-color: #fff; }
+
+.ct-name {
+  --mx: 50%;
+  --my: 50%;
+  --ma: 0;
+  position: relative;
+  margin-top: auto;
+  padding-top: clamp(8px, 1.6vh, 20px);
+  margin-bottom: -0.12em;
+  font-family: var(--font-tech);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 11.8vw, 12rem);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  user-select: none;
+}
+.ct-name span { display: block; }
+.ct-name-base { color: rgba(255, 255, 255, 0.14); }
+/* two copies of the name sit on top of the dim one, each visible only inside a soft round of light around the pointer:
+   a wide, blurred, faint one (the bloom) and a tighter, bright one (the lit letters) */
+.ct-name-glow, .ct-name-lit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: clamp(8px, 1.6vh, 20px);
+  pointer-events: none;
+  color: #fff;
+}
+.ct-name-lit {
+  -webkit-mask-image: radial-gradient(ellipse 300px 240px at var(--mx) var(--my), rgba(0, 0, 0, calc(var(--ma) * 0.95)) 0%, rgba(0, 0, 0, calc(var(--ma) * 0.45)) 38%, rgba(0, 0, 0, calc(var(--ma) * 0.1)) 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse 300px 240px at var(--mx) var(--my), rgba(0, 0, 0, calc(var(--ma) * 0.95)) 0%, rgba(0, 0, 0, calc(var(--ma) * 0.45)) 38%, rgba(0, 0, 0, calc(var(--ma) * 0.1)) 70%, transparent 100%);
+}
+.ct-name-glow {
+  opacity: 0.55;
+  filter: blur(22px);
+  -webkit-mask-image: radial-gradient(ellipse 460px 340px at var(--mx) var(--my), rgba(0, 0, 0, calc(var(--ma) * 0.8)) 0%, rgba(0, 0, 0, calc(var(--ma) * 0.3)) 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 460px 340px at var(--mx) var(--my), rgba(0, 0, 0, calc(var(--ma) * 0.8)) 0%, rgba(0, 0, 0, calc(var(--ma) * 0.3)) 45%, transparent 100%);
+}
+@media (hover: none), (prefers-reduced-motion: reduce) { .ct-name-glow, .ct-name-lit { display: none; } }
+
+.ct-foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: clamp(6px, 1.2vh, 12px);
+  padding: 12px 0 14px;
+  border-top: 1px solid var(--line-dark);
+  background: #000;
+  color: var(--ink-faint-dark);
+}
+.ct-foot a { color: inherit; text-decoration: none; }
+.ct-foot a:hover, .ct-foot a:focus-visible { color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-dot { animation: none; }
+}
